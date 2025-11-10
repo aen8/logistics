@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: route-service
+
+server:
+  port: 8089

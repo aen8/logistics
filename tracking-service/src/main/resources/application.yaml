@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: tracking-service
+server:
+  port: 8084
+
+
+logging:
+  level:
+    root: DEBUG
