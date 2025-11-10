@@ -1,0 +1,98 @@
+server:
+  port: 8888
+
+spring:
+  application:
+    name: api-gateway
+
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true   # Enable automatic route discovery from Eureka
+          lower-case-service-id: true  # Makes route IDs lowercase (optional but useful)
+
+      # Optional: custom route definitions
+      routes:
+        - id: r1_users
+          uri: lb://user-service  # lb:// = LoadBalanced (through Eureka)
+          predicates:
+            - Path=/api/users/**   # Any request matching this path goes to account-service
+          filters:
+            - StripPrefix=0
+
+        - id: r1_auth
+          uri: lb://user-service  # lb:// = LoadBalanced (through Eureka)
+          predicates:
+            - Path=/api/auth/**   # Any request matching this path goes to account-service
+          filters:
+            - StripPrefix=0
+        - id: r1_admin
+          uri: lb://user-service  # lb:// = LoadBalanced (through Eureka)
+          predicates:
+            - Path=/api/admin/**   # Any request matching this path goes to account-service
+          filters:
+            - StripPrefix=0
+        - id: r1_client
+          uri: lb://user-service  # lb:// = LoadBalanced (through Eureka)
+          predicates:
+            - Path=/api/users/clients/**   # Any request matching this path goes to account-service
+          filters:
+            - StripPrefix=0
+        - id: r1_manager
+          uri: lb://user-service  # lb:// = LoadBalanced (through Eureka)
+          predicates:
+            - Path=/api/users/managers/**   # Any request matching this path goes to account-service
+          filters:
+            - StripPrefix=0
+        - id: r1_livreur
+          uri: lb://user-service  # lb:// = LoadBalanced (through Eureka)
+          predicates:
+            - Path=/api/users/livreurs/**   # Any request matching this path goes to account-service
+          filters:
+            - StripPrefix=0
+
+        - id: r2
+          uri: lb://notification-service
+          predicates:
+            - Path=/api/notifications/**
+          filters:
+            - StripPrefix=0
+
+        - id: r3_livraison
+          uri: lb://delivery-service
+          predicates:
+            - Path=/api/deliveries/**
+          filters:
+            - StripPrefix=0
+        - id: r3_colis
+          uri: lb://delivery-service
+          predicates:
+            - Path=/api/packages/**
+          filters:
+            - StripPrefix=0
+
+        - id: r4_orders
+          uri: lb://order-service
+          predicates:
+            - Path=/api/orders/**
+          filters:
+            - StripPrefix=0
+#
+#        - id: user-service
+#          uri: lb://user-service
+#          predicates:
+#            - Path=/api/users/**
+#          filters:
+#            - StripPrefix=1
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/  # URL of Eureka Server
+    fetch-registry: true
+    register-with-eureka: true
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG  # Optional, for debugging routing

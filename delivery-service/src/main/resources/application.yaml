@@ -1,0 +1,18 @@
+#spring:
+#  application:
+#    name: delivery-service
+#server:
+#  port: 8083
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    hostname: localhost
+    prefer-ip-address: true
+
+jwt:
+  secret: DFGHJKIUYTRTYUkk58855dsdsddbhdbhfd2548dhyddbchdufhdisddhsduddssdIOPLKJH123456789ABCDEFGH
+  expiration: 86400000
